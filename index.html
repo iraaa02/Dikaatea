@@ -1,0 +1,1449 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Something for Dika 🌿</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --sage:#A8B99A;
+  --dark:#526B50;
+  --cream:#FFF9EF;
+  --pale:#E8EDDF;
+  --olive:#788B68;
+  --brown:#665448;
+  --pink:#E9B9AE;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:'DM Sans',sans-serif;
+  color:var(--brown);
+  background:
+    linear-gradient(rgba(232,237,223,.12),rgba(232,237,223,.12)),
+    url('background.jpg') center/cover fixed;
+  overflow-x:hidden;
+}
+button,input{font-family:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{
+  outline:3px solid var(--olive);
+  outline-offset:3px;
+}
+.slide{
+  display:none;
+  min-height:100vh;
+  padding:42px 16px;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.slide.active{
+  display:flex;
+  animation:slideIn .6s ease both;
+}
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(18px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.card{
+  position:relative;
+  overflow:hidden;
+  width:min(780px,100%);
+  padding:35px 28px;
+  border-radius:25px;
+  background:rgba(255,249,239,.76);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 15px 40px rgba(48,65,43,.17);
+  backdrop-filter:blur(3px);
+  text-align:center;
+}
+.card:before{
+  content:"";
+  position:absolute;
+  inset:9px;
+  border:1px dashed rgba(120,139,104,.35);
+  border-radius:18px;
+  pointer-events:none;
+}
+.card>*{position:relative}
+h1,h2,h3{
+  font-family:'Playfair Display',serif;
+  color:var(--dark);
+}
+h1{font-size:clamp(2.3rem,7vw,3.8rem);margin:8px 0 15px}
+h2{font-size:clamp(1.7rem,5vw,2.5rem);margin:8px 0 14px}
+p{line-height:1.7}
+.eyebrow{
+  color:var(--olive);
+  letter-spacing:3px;
+  font-size:11px;
+  font-weight:800;
+}
+.script{
+  font-family:'Caveat',cursive;
+  font-size:25px;
+  color:var(--dark);
+}
+.small{font-size:13px;color:#817566}
+.divider{
+  width:70px;height:3px;background:var(--sage);
+  margin:18px auto;border-radius:5px;
+}
+.btn{
+  border:0;
+  border-radius:30px;
+  padding:13px 25px;
+  background:var(--dark);
+  color:white;
+  font-weight:800;
+  margin:7px;
+  box-shadow:0 5px 0 #3e543d;
+  transition:.2s;
+}
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 0 #3e543d;
+}
+.btn:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 #3e543d;
+}
+.btn.light{
+  background:var(--pale);
+  color:var(--dark);
+  box-shadow:0 5px 0 #cbd7c1;
+}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.sticker{
+  display:inline-block;
+  padding:8px 14px;
+  background:#e5eadc;
+  border-radius:7px;
+  transform:rotate(-3deg);
+  color:var(--dark);
+  font-size:12px;
+  font-weight:800;
+  box-shadow:2px 3px 0 rgba(82,107,80,.12);
+}
+.corner{
+  position:absolute;
+  font-size:24px;
+  opacity:.8;
+  animation:float 3s ease-in-out infinite;
+}
+.corner.one{top:18px;left:20px}
+.corner.two{bottom:18px;right:20px;animation-delay:1s}
+@keyframes float{
+  50%{transform:translateY(-9px) rotate(7deg)}
+}
+.music-toggle{
+  position:fixed;top:16px;right:16px;z-index:120;
+  border:1px solid rgba(255,255,255,.8);border-radius:30px;
+  padding:9px 14px;background:rgba(255,249,239,.94);
+  color:var(--dark);font-weight:800;box-shadow:0 4px 14px #526b5025;
+}
+.back-btn{
+  position:absolute;top:18px;left:18px;z-index:5;
+  margin:0;padding:9px 15px;font-size:12px;
+}
+.wheel-labels{position:absolute;inset:0;pointer-events:none}
+.gallery .polaroid img{cursor:zoom-in}
+.lightbox{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(28,38,27,.88);padding:24px;
+  align-items:center;justify-content:center;
+}
+.lightbox.open{display:flex}
+.lightbox img{
+  max-width:min(900px,94vw);max-height:86vh;
+  object-fit:contain;border:10px solid #fff9ef;
+  border-bottom-width:35px;border-radius:4px;
+  box-shadow:0 15px 45px #0006;
+}
+.lightbox-close{
+  position:absolute;top:18px;right:22px;border:0;border-radius:50%;
+  width:44px;height:44px;font-size:25px;background:#fff9ef;color:var(--dark);
+}
+.final-photo-frame{
+  width:min(540px,90%);margin:22px auto;padding:12px 12px 35px;
+  background:#fff;border-radius:4px;box-shadow:0 12px 28px #526b5030;
+  transform:rotate(-1.2deg);
+}
+.final-photo{display:block;width:100%;max-height:520px;object-fit:cover;border-radius:2px;cursor:zoom-in}
+.final-photo-caption{font:25px 'Caveat',cursive;color:var(--dark);margin:10px 0 -20px}
+.final-secret{display:none;margin:18px auto;padding:18px;max-width:500px;
+  background:#e8eddf;border:1px dashed #a8b99a;border-radius:14px}
+.final-secret.show{display:block;animation:slideIn .5s ease both}
+.progress-top{
+  position:fixed;
+  top:0;left:0;width:100%;
+  height:5px;background:rgba(255,255,255,.35);
+  z-index:100;
+}
+.progress-top span{
+  display:block;height:100%;width:7%;
+  background:var(--dark);
+  transition:width .5s;
+}
+.floating{
+  position:fixed;
+  pointer-events:none;
+  z-index:0;
+  opacity:.45;
+  animation:float 5s ease-in-out infinite;
+}
+.f1{top:12%;left:5%;font-size:25px}
+.f2{top:65%;right:5%;font-size:22px;animation-delay:1s}
+.f3{bottom:8%;left:10%;font-size:18px;animation-delay:2s}
+.paper-note{
+  background:rgba(255,255,255,.62);
+  border:1px dashed #a8b99a;
+  border-radius:14px;
+  padding:18px;
+  transform:rotate(-.5deg);
+}
+.welcome-art{
+  font-size:75px;
+  animation:bounce 2s infinite ease-in-out;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0) rotate(-4deg)}
+  50%{transform:translateY(-12px) rotate(4deg)}
+}
+.welcome-stars{font-size:23px;letter-spacing:15px;margin:15px 0}
+.hello-tag{
+  display:inline-block;
+  font-family:'Caveat',cursive;
+  font-size:23px;
+  padding:5px 15px;
+  background:#e8eddf;
+  border-radius:10px;
+  transform:rotate(2deg);
+}
+
+/* Game */
+#gameCanvas{
+  display:block;
+  width:100%;
+  max-width:520px;
+  aspect-ratio:520/380;
+  border-radius:18px;
+  background:#f4f3e7;
+  border:2px solid #cbd7c1;
+  touch-action:pan-y;
+  margin:auto;
+}
+.game-info{
+  display:flex;justify-content:space-between;
+  max-width:520px;margin:12px auto;
+  font-weight:800;color:var(--dark);
+}
+.game-controls{font-size:12px;color:#746e60}
+.progress{
+  height:8px;max-width:520px;
+  background:#dce4d4;border-radius:10px;
+  overflow:hidden;margin:12px auto;
+}
+.progress span{
+  display:block;height:100%;width:0;
+  background:var(--olive);transition:.3s;
+}
+
+/* Memory */
+.memory-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:11px;max-width:460px;margin:22px auto;
+}
+.memory-card{
+  aspect-ratio:1;
+  border:2px solid #cbd7c1;
+  border-radius:15px;
+  background:linear-gradient(145deg,#e8eddf,#dce6d5);
+  color:var(--dark);
+  font-size:clamp(23px,5vw,35px);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 #bdcbb3;
+  transition:transform .3s,background .3s;
+}
+.memory-card:hover{transform:translateY(-3px) rotate(-2deg)}
+.memory-card.flipped,.memory-card.matched{background:#fff9ef}
+.memory-card.matched{border-color:var(--olive)}
+
+/* Puzzle */
+.puzzle-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:4px;width:min(340px,85vw);aspect-ratio:1;
+  margin:20px auto;padding:6px;
+  background:#d5dfca;border-radius:14px;
+  box-shadow:0 7px 15px rgba(60,80,50,.15);
+}
+.puzzle-piece{
+  border:0;border-radius:6px;
+  background-image:url('foto-kita.jpeg');
+  background-size:300% 300%;
+  background-repeat:no-repeat;
+  position:relative;min-width:0;
+  transition:transform .15s;
+}
+.puzzle-piece:active{transform:scale(.94)}
+.puzzle-piece.empty{background:none;background-color:#e8eddf}
+.puzzle-piece:after{
+  content:attr(data-number);
+  position:absolute;top:4px;left:6px;
+  color:white;text-shadow:0 1px 4px #333;
+  font-size:12px;font-weight:bold;
+}
+
+/* Video and letter */
+.video-frame{
+  padding:12px;background:#fff;border-radius:15px;
+  box-shadow:0 8px 20px rgba(60,80,50,.12);
+  transform:rotate(-1deg);max-width:600px;margin:22px auto;
+}
+.video-frame video{display:block;width:100%;border-radius:9px;background:#222}
+.letter{
+  text-align:left;padding:25px;
+  background:
+    repeating-linear-gradient(transparent,transparent 30px,rgba(168,185,154,.2) 31px),
+    rgba(255,255,255,.68);
+  border:1px solid #e2ddcc;border-radius:12px;
+  line-height:1.9;box-shadow:3px 6px 15px rgba(60,80,50,.1);
+  transform:rotate(-.4deg);
+}
+.letter-sign{
+  font-family:'Caveat',cursive;font-size:27px;
+  color:var(--dark);text-align:right;
+}
+
+/* Gallery */
+.gallery{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:17px;margin:25px auto;max-width:550px;
+}
+.polaroid{
+  background:white;padding:9px 9px 28px;border-radius:3px;
+  box-shadow:0 7px 18px rgba(50,60,40,.16);
+  transition:transform .3s;
+}
+.polaroid:nth-child(odd){transform:rotate(-3deg)}
+.polaroid:nth-child(even){transform:rotate(3deg)}
+.polaroid:hover{transform:rotate(0) scale(1.04)}
+.polaroid img{width:100%;height:210px;object-fit:cover;display:block}
+.polaroid p{font-family:'Caveat',cursive;font-size:20px;margin:5px 0 -18px;color:var(--dark)}
+
+/* Envelope */
+.envelope-wrap{
+  width:220px;height:155px;margin:35px auto;
+  position:relative;cursor:pointer;
+  perspective:700px;
+}
+.envelope{
+  position:absolute;inset:0;
+  background:#d7e1cd;border-radius:7px;
+  box-shadow:0 8px 18px #526b5025;
+}
+.envelope:before{
+  content:"";position:absolute;inset:0;
+  background:#c4d2b9;
+  clip-path:polygon(0 0,50% 55%,100% 0);
+  transform-origin:top;
+  transition:transform .7s;z-index:3;
+}
+.envelope:after{
+  content:"";position:absolute;inset:0;
+  background:#e6ecdc;
+  clip-path:polygon(0 100%,50% 43%,100% 100%);
+  z-index:2;
+}
+.envelope-letter{
+  position:absolute;left:12px;right:12px;bottom:12px;
+  height:115px;background:#fff9ef;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;transition:transform .8s;z-index:1;
+}
+.envelope.open:before{transform:rotateX(180deg)}
+.envelope.open .envelope-letter{transform:translateY(-85px);z-index:4}
+.seal{
+  position:absolute;z-index:5;left:50%;top:52%;
+  transform:translate(-50%,-50%);
+  width:38px;height:38px;border-radius:50%;
+  background:#d78f83;color:white;
+  display:grid;place-items:center;
+}
+
+/* Quiz */
+.quiz-options{
+  display:grid;gap:10px;
+  max-width:500px;margin:20px auto;
+}
+.quiz-option{
+  border:1px solid #cbd7c1;
+  border-radius:14px;padding:13px;
+  background:#f7f7ed;color:var(--dark);
+  font-weight:700;text-align:left;
+  transition:.2s;
+}
+.quiz-option:hover{background:#e8eddf;transform:translateX(4px)}
+.quiz-option:disabled{opacity:.65;cursor:default}
+.quiz-result{
+  padding:20px;background:#e8eddf;
+  border-radius:16px;margin:18px auto;
+  max-width:480px;
+}
+
+/* Wheel */
+.wheel-shell{
+  width:min(300px,75vw);
+  aspect-ratio:1;margin:25px auto;
+  position:relative;
+}
+.wheel{
+  width:100%;height:100%;
+  border-radius:50%;
+  border:8px solid #fff9ef;
+  box-shadow:0 7px 22px #526b5030;
+  background:conic-gradient(
+    #a8b99a 0deg 60deg,
+    #f0d6c9 60deg 120deg,
+    #dce6d5 120deg 180deg,
+    #e8d9a9 180deg 240deg,
+    #c6d4bb 240deg 300deg,
+    #ead3c8 300deg 360deg
+  );
+  transition:transform 5s cubic-bezier(.12,.72,.12,1);
+}
+.wheel-label{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:45%;
+  height:22px;
+  transform-origin:left center;
+  color:#40543d;
+  font-size:10px;
+  font-weight:800;
+  text-align:right;
+  padding-right:10px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.wheel-pointer{
+  position:absolute;top:-14px;left:50%;
+  transform:translateX(-50%);
+  z-index:3;font-size:32px;color:#d78f83;
+}
+.wheel-center{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:58px;height:58px;border-radius:50%;
+  background:#fff9ef;border:5px solid #788b68;
+  z-index:2;display:grid;place-items:center;font-size:22px;
+}
+
+/* Scratch card */
+.scratch-wrap{
+  width:min(430px,90%);
+  margin:22px auto;
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  background:#e8eddf;
+  border:7px solid white;
+  box-shadow:0 7px 18px #526b5025;
+}
+.scratch-message{
+  min-height:180px;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;color:var(--dark);
+}
+.scratch-message strong{font-family:'Playfair Display',serif;font-size:25px}
+#scratchCanvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  touch-action:none;cursor:crosshair;
+}
+.scratch-wrap.revealed #scratchCanvas{display:none}
+
+/* Facts */
+.fact-box{
+  min-height:170px;
+  display:flex;align-items:center;justify-content:center;
+  padding:25px;margin:22px auto;
+  max-width:500px;border-radius:18px;
+  background:#e8eddf;border:2px dashed #a8b99a;
+  font-family:'Caveat',cursive;
+  font-size:27px;color:var(--dark);
+  transform:rotate(-1deg);
+}
+
+/* Secret room */
+.secret-input{
+  display:block;width:min(330px,100%);
+  margin:15px auto;padding:14px 16px;
+  border:1px solid #b8c8ad;border-radius:12px;
+  background:#fffdf7;color:var(--dark);
+  text-align:center;font-size:16px;
+}
+.secret-room-content{
+  display:none;padding:20px;
+  border-radius:16px;background:#e8eddf;
+  margin:20px auto;max-width:480px;
+}
+.final-heart{font-size:75px;animation:heartbeat 1.1s infinite}
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}
+  15%{transform:scale(1.13)}
+  30%{transform:scale(1)}
+  45%{transform:scale(1.1)}
+}
+.confetti{
+  position:fixed;top:-20px;z-index:200;
+  pointer-events:none;animation:fall 3s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+
+@media(max-width:480px){
+  .card{padding:29px 17px}
+  .slide{padding:22px 12px}
+  .gallery{gap:12px}
+  .polaroid img{height:155px}
+  .memory-grid{gap:7px}
+  .back-btn{top:12px;left:12px;padding:7px 11px;font-size:11px}
+  .card{padding-top:54px}
+  .music-toggle{top:12px;right:12px;padding:7px 11px;font-size:11px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="progress-top"><span id="topProgress"></span></div>
+<div class="floating f1">✿</div>
+<div class="floating f2">♡</div>
+<div class="floating f3">✧</div>
+<button class="music-toggle" id="musicToggle" onclick="toggleMusic()" type="button">♫ MUSIC: OFF</button>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()" role="dialog" aria-label="Foto diperbesar">
+  <button class="lightbox-close" type="button" aria-label="Tutup" onclick="event.stopPropagation();closeLightbox()">×</button>
+  <img id="lightboxImage" src="" alt="Foto diperbesar">
+</div>
+
+<audio id="music" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 1 WELCOME -->
+<section class="slide active" id="slide1">
+<div class="card">
+  <span class="corner one">✿</span>
+  <span class="corner two">♡</span>
+  <div class="welcome-art">🐻🌷</div>
+  <div class="eyebrow">A LITTLE SOMETHING FOR YOU</div>
+  <h1>Haloooo, kitinggg!</h1>
+  <div class="hello-tag">Ang buka lambek" yo!</div>
+  <div class="divider"></div>
+  <p>Caliak se lah sabara pandai den buek iko.</p>
+  <p class="small">Sabana e buek iko pas gabut nda ado karajo se wkwk.</p>
+  <div class="welcome-stars">✧ ♡ ✧</div>
+  <div class="sticker">DEN BUEK UNTUAK ANG</div><br><br>
+  <button class="btn" onclick="startWebsite()">BUKA YOO ♡</button>
+  <p id="musicStatus" class="small">♫ Klik tombolnya dulu, ya!</p>
+</div>
+</section>
+
+<!-- 2 CATCH HEART -->
+<section class="slide" id="slide2">
+<div class="card">
+  <span class="corner one">♡</span>
+  <div class="eyebrow">GAME 01 · CATCH MY LOVE</div>
+  <h2>Tangkok hati den dika!</h2>
+  <p>Tolongan beruang tu tangkok hati den nan jatuah.</p>
+  <div class="game-info">
+    <span>♡ <span id="heartScore">0</span>/10</span>
+    <span>🐻 Catch them!</span>
+  </div>
+  <div class="progress"><span id="heartProgress"></span></div>
+  <canvas id="gameCanvas" width="520" height="380"></canvas>
+  <p class="game-controls">Geser beruang dengan mouse atau sentuhan. Klik layar / tekan spasi untuk menembakkan panah.</p>
+  <button class="btn" id="startHeartButton" onclick="startHeartGame()">MULAI GAME</button>
+  <p id="heartMessage" class="small">Jangan biarkan hati aku jatuh dika! Hehe.</p>
+</div>
+</section>
+
+<!-- 3 MEMORY -->
+<section class="slide" id="slide3">
+<div class="card">
+  <span class="corner two">✧</span>
+  <div class="eyebrow">GAME 02 · MEMORY TIME</div>
+  <h2>Seberapa si penyimpanan otakmu?</h2>
+  <p>Cari pasangan gambar yang sama dika. Jangan asal pencet ukeey!</p>
+  <p>Katanya penyimpanan memori otaknya besar!</p>
+  <div class="sticker">FIND ALL 8 PAIRS</div>
+  <p class="small">Dika berhasil mengumpulkan: <b id="matchCount">0</b>/8</p>
+  <div class="memory-grid" id="memoryGrid"></div>
+  <p id="memoryMessage" class="small">Nehhhh lama kali 😆</p>
+  <button class="btn" id="memoryNext" onclick="nextSlide(4)" disabled>LANJUT ♡</button>
+</div>
+</section>
+
+<!-- 4 PUZZLE -->
+<section class="slide" id="slide4">
+<div class="card">
+  <span class="corner one">🌿</span>
+  <div class="eyebrow">GAME 03 · LITTLE PUZZLE</div>
+  <h2>Piece by piece...</h2>
+  <p>Bisakah si kitting ini menyusun foto ini?</p>
+  <div class="puzzle-grid" id="puzzleGrid"></div>
+  <p id="puzzleMessage" class="small">Geser kotak di sebelah ruang kosong.</p>
+  <button class="btn light" onclick="shufflePuzzle()">ACAK LAGI ↻</button><br>
+  <button class="btn" id="puzzleNext" onclick="nextSlide(5)" disabled>LANJUT ♡</button>
+</div>
+</section>
+
+<!-- 5 SECRET ENVELOPE -->
+<section class="slide" id="slide5">
+<div class="card">
+  <div class="eyebrow">SECRET MAIL · OPEN ME</div>
+  <h2>Anjay dapat surat cinta! 💌</h2>
+  <p>Ira mau ngomong sesuatu sama dika...</p>
+  <div class="envelope-wrap" onclick="openEnvelope()">
+    <div class="envelope" id="envelope">
+      <div class="envelope-letter">💌</div>
+      <div class="seal">♡</div>
+    </div>
+  </div>
+  <p id="envelopeMessage" class="script">Klik dulu amplopnya dika!</p>
+  <div id="envelopeText" class="paper-note" hidden>
+    <h3>DIKA TEEKK TEEKK TEKKK,</h3>
+    <p>Selamat! dika berhasil menemukan surat rahasia pertama.</p>
+    <p>ASALKAN DIKA TAU SABANA E IRA NIO NAPUAK KUDUAK DIKA KINI. WKWK.</p>
+    <p> JUSSTTT KIDDING.</p>
+
+    <p class="script">Keep going, curious human! ✿</p>
+  </div>
+  <button class="btn" id="envelopeNext" onclick="nextSlide(6)" disabled>LANJUT ♡</button>
+</div>
+</section>
+
+<!-- 6 RANDOM QUIZ -->
+<section class="slide" id="slide6">
+<div class="card">
+  <div class="eyebrow">A VERY IMPORTANT QUIZ</div>
+  <h2>Seberapa random kamu? 🤨</h2>
+  <p>Jawab pertanyaan berikut. Ga ada jawaban benar atau salah!</p>
+  <div class="progress"><span id="quizProgress"></span></div>
+  <div id="quizArea">
+    <h3 id="quizQuestion">Pertanyaan pertama</h3>
+    <div class="quiz-options" id="quizOptions"></div>
+    <p class="small" id="quizCounter">Pertanyaan 1 dari 5</p>
+  </div>
+  <div id="quizResult" class="quiz-result" hidden>
+    <div style="font-size:45px">🤭</div>
+    <h2 id="quizResultTitle">Hasil tes!</h2>
+    <p id="quizResultText"></p>
+    <button class="btn light" onclick="restartQuiz()">COBA LAGI ↻</button>
+  </div>
+  <button class="btn" id="quizNext" onclick="nextSlide(7)" disabled>LANJUT ♡</button>
+</div>
+</section>
+
+<!-- 7 FORTUNE WHEEL -->
+<section class="slide" id="slide7">
+<div class="card">
+  <div class="eyebrow">LUCKY YOU · SPIN TIME</div>
+  <h2>Dika's Fortune Wheel 🎡</h2>
+  <p>Coba putar roda keberuntungan. Mana tau dika dapat sesuatu!</p>
+  <div class="wheel-shell">
+    <div class="wheel-pointer">▼</div>
+    <div class="wheel" id="wheel"><div class="wheel-labels" id="wheelLabels"></div></div>
+    <div class="wheel-center">♡</div>
+  </div>
+  <button class="btn" id="spinButton" onclick="spinWheel()">SPIN THE WHEEL!</button>
+  <div class="paper-note" id="wheelResult">Hasil keberuntunganmu akan muncul di sini.</div>
+  <button class="btn" id="wheelNext" onclick="nextSlide(8)" disabled>LANJUT ♡</button>
+</div>
+</section>
+
+<!-- 8 VIDEO -->
+<section class="slide" id="slide8">
+<div class="card">
+  <div class="eyebrow">A LITTLE MEMORY</div>
+  <h2>Wait, there's more! 🎞️</h2>
+  <p>Ternyata dah banyak juga ya kenangan kita.</p>
+  <div class="video-frame">
+    <video controls playsinline preload="metadata">
+      <source src="video-kita.mp4" type="video/mp4">
+      Browser kamu tidak mendukung video.
+    </video>
+  </div>
+  <p class="script">just a little moment to keep ♡</p>
+  <button class="btn" onclick="nextSlide(9)">NEXT PAGE →</button>
+</div>
+</section>
+
+<!-- 9 SCRATCH -->
+<section class="slide" id="slide9">
+<div class="card">
+  <div class="eyebrow">A HIDDEN MESSAGE</div>
+  <h2>Scratch to reveal! ✨</h2>
+  <p>Gosok bagian abu-abu sampai pesan di baliknya terlihat.</p>
+  <div class="scratch-wrap" id="scratchWrap">
+    <div class="scratch-message">
+      <div style="font-size:40px">🎁</div>
+      <strong>Surprise, Dika!</strong>
+      <p>DIKA GILO DIKA TEA. WKWK.</p>
+      <span class="script">You deserve a little smile ♡</span>
+    </div>
+    <canvas id="scratchCanvas" width="430" height="180"></canvas>
+  </div>
+  <p id="scratchStatus" class="small">Gosok dengan mouse atau jari.</p>
+  <button class="btn light" onclick="resetScratch()">ULANGI KARTU ↻</button>
+  <br>
+  <button class="btn" id="scratchNext" onclick="nextSlide(10)" disabled>LANJUT ♡</button>
+</div>
+</section>
+
+<!-- 10 LETTER -->
+<section class="slide" id="slide10">
+<div class="card">
+  <div class="eyebrow">A LITTLE NOTE FOR YOU</div>
+  <h2>Dear, Dika 💌</h2>
+  <div class="divider"></div>
+  <div class="letter">
+    <p>Halooo, Dikaku!</p>
+    <p>Aku buat ini ga ada tujuan apa" cuma buat lucu"an aja dan kalo kamu sudah sampe ditahap ini berarti kamu sabar banget walaupun ira tau kalo sebenarnya dika emang sabar orangnya apalagi sabar menghadapi tingkah ira, wkwk.</p>
+    <p>Aku mau bilang, sebenarnya kamu ga butuh validasi setiap hari aku gimana ke kamu, selagi aku masih stay sama kamu pasti kamu juga tau kalo aku pilih kamu.</p>
+    <p>Kamu cukup jadi kamu yang sekarang, tapi kurangin gatelnya karna aku ga suka cowo gatel.</p>
+    <p>Terimakasih untuk selalu mengusahakan aku yaaa, aku doakan semoga rejeki kamu lancar terus. 😌</p>
+    <p>Udah, segitu aja. AKU MAGERR,,,!</p>
+    <p class="letter-sign">— someone behind this little website ♡</p>
+  </div>
+  <button class="btn" onclick="nextSlide(11)">LIHAT ALBUM →</button>
+</div>
+</section>
+
+<!-- 11 GALLERY -->
+<section class="slide" id="slide11">
+<div class="card">
+  <div class="eyebrow">LITTLE PHOTO ALBUM</div>
+  <h2>Just some little things 📸</h2>
+  <p>BEBERAPA MOMENT FAV AKU.</p>
+  <div class="gallery">
+    <div class="polaroid"><img src="foto1.jpeg" alt="Foto 1"><p>little moment ♡</p></div>
+    <div class="polaroid"><img src="foto2.jpeg" alt="Foto 2"><p>just because ✿</p></div>
+    <div class="polaroid"><img src="foto3.jpeg" alt="Foto 3"><p>one of those days</p></div>
+    <div class="polaroid"><img src="foto4.jpeg" alt="Foto 4"><p>keep this one!</p></div>
+  </div>
+  <button class="btn" onclick="nextSlide(12)">ONE MORE THING ♡</button>
+</div>
+</section>
+
+<!-- 12 RANDOM FACTS -->
+<section class="slide" id="slide12">
+<div class="card">
+  <div class="eyebrow">DID YOU KNOW?</div>
+  <h2>Random Dika Facts 🐻</h2>
+  <p>Tekan tombol di bawah untuk membuka fakta random berikutnya.</p>
+  <div class="fact-box" id="factBox">Klik tombolnya. Siapa tahu ada yang relate! ✨</div>
+  <button class="btn" onclick="showRandomFact()">NEXT RANDOM FACT!</button>
+  <p class="small" id="factCounter">Fakta random: belum dibuka</p>
+  <button class="btn light" onclick="nextSlide(13)">LANJUT ♡</button>
+</div>
+</section>
+
+<!-- 13 SECRET ROOM -->
+<section class="slide" id="slide13">
+<div class="card">
+  <div class="eyebrow">TOP SECRET · RESTRICTED AREA</div>
+  <h2>Welcome to the Secret Room 🔐</h2>
+  <p>Hmm... sepertinya halaman ini tidak bisa dibuka sembarangan.</p>
+  <div class="paper-note">
+    <div style="font-size:45px">🔒</div>
+    <p>Petunjuk: masukkan nama orang yang dika sayang.</p>
+  </div>
+  <input class="secret-input" id="secretCode" placeholder="Masukkan kode rahasia..." autocomplete="off">
+  <button class="btn" onclick="unlockSecret()">UNLOCK THE ROOM</button>
+  <p class="small" id="secretMessage">Psst... coba pikirkan baik-baik.</p>
+  <div class="secret-room-content" id="secretContent">
+    <div style="font-size:50px">🎉🐻🌷</div>
+    <h2>YOU FOUND IT!</h2>
+    <p>Selamat, Dika! Kamu berhasil menemukan ruangan rahasia.</p>
+    <p>Hadiahmu adalah... sebuah website ga jelas ini. WKWKWK.</p>
+    <p class="script">Mission completed! ♡</p>
+  </div>
+  <button class="btn" id="secretNext" onclick="nextSlide(14)" disabled>FINAL PAGE →</button>
+</div>
+</section>
+
+<!-- 14 FINAL -->
+<section class="slide" id="slide14">
+<div class="card">
+  <span class="corner one">✿</span>
+  <span class="corner two">✧</span>
+  <div class="final-heart">💚</div>
+  <div class="eyebrow">YOU MADE IT!</div>
+  <h1>The End!</h1>
+  <div class="divider"></div>
+  <div class="final-photo-frame">
+    <img class="final-photo" src="foto5.jpeg" alt="Foto kenangan Dika" onclick="openLightbox(this.src,this.alt)">
+    <p class="final-photo-caption">one last little memory ♡</p>
+  </div>
+  <p>MAKASI DIKAA GILO.</p>
+  <p class="script">Terima kasih sudah meluangkan waktunya dika.</p>
+  <div class="sticker">THIS LITTLE THING IS FOR DIKA</div>
+  <p class="small">Jangan lupa selalu sayang ira. Oke, bye! 👋</p>
+  <button class="btn" id="finalSecretButton" onclick="revealFinalMessage()">JANGAN DIKLIK KALAU NGGAK PENASARAN 🤫</button>
+  <div class="final-secret" id="finalSecretMessage">Hehehe, makasih ya sudah sampai halaman terakhir. Semoga website random ini berhasil bikin kamu senyum sedikit. Jangan lupa jaga diri, Dika! 🌿</div>
+  <br>
+  <button class="btn light" onclick="restartWebsite()">ULANGI DARI AWAL ↻</button>
+</div>
+</section>
+
+<script>
+/* NAVIGASI */
+const TOTAL_SLIDES=14;
+let currentSlide=1;
+
+function nextSlide(number){
+  if(number<1||number>TOTAL_SLIDES)return;
+
+  document.querySelectorAll('.slide').forEach(slide=>{
+    slide.classList.remove('active');
+  });
+
+  document.getElementById('slide'+number).classList.add('active');
+  currentSlide=number;
+
+  document.getElementById('topProgress').style.width=
+    (number/TOTAL_SLIDES*100)+'%';
+
+  if(number!==2)stopHeartGame();
+  if(number===2)resetHeartGame();
+  if(number===3&&!memoryInitialized)initMemoryGame();
+  if(number===4&&!puzzleInitialized)initPuzzle();
+  if(number===9)prepareScratch();
+
+  if(number!==8){
+    document.querySelectorAll('video').forEach(v=>v.pause());
+  }
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function previousSlide(){
+  if(currentSlide>1)nextSlide(currentSlide-1);
+}
+
+/* Tambahkan tombol kembali pada semua halaman selain pembuka */
+document.querySelectorAll('.slide:not(#slide1) .card').forEach(card=>{
+  const back=document.createElement('button');
+  back.type='button';back.className='btn light back-btn';
+  back.textContent='← KEMBALI';back.onclick=previousSlide;
+  card.appendChild(back);
+});
+
+/* MUSIK */
+const music=document.getElementById('music');
+music.volume=.55;
+
+function toggleMusic(){
+  const button=document.getElementById('musicToggle');
+  if(music.paused){
+    music.play().then(()=>{button.textContent='♫ MUSIC: ON';}).catch(()=>{button.textContent='♫ KLIK UNTUK MUSIK';});
+  }else{
+    music.pause();button.textContent='♫ MUSIC: OFF';
+  }
+}
+
+function startWebsite(){
+  music.play().then(()=>{
+    document.getElementById('musicStatus').textContent='♫ Music is playing';
+    document.getElementById('musicToggle').textContent='♫ MUSIC: ON';
+  }).catch(()=>{
+    document.getElementById('musicStatus').textContent=
+      'Musik belum bisa diputar. Cek file music.mp3.';
+    document.getElementById('musicToggle').textContent='♫ KLIK UNTUK MUSIK';
+  });
+  nextSlide(2);
+}
+
+function openLightbox(src,alt){
+  const box=document.getElementById('lightbox');
+  document.getElementById('lightboxImage').src=src;
+  document.getElementById('lightboxImage').alt=alt||'Foto';
+  box.classList.add('open');
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.querySelectorAll('.gallery .polaroid img').forEach(img=>{
+  img.addEventListener('click',()=>openLightbox(img.src,img.alt));
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+function revealFinalMessage(){
+  document.getElementById('finalSecretMessage').classList.add('show');
+  document.getElementById('finalSecretButton').disabled=true;
+  document.getElementById('finalSecretButton').textContent='RAHASIA TERBUKA ♡';
+  confetti();
+}
+
+/* CONFETTI */
+function confetti(){
+  const symbols=['✿','♡','✧','🌿','✨'];
+  for(let i=0;i<35;i++){
+    const item=document.createElement('div');
+    item.className='confetti';
+    item.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    item.style.left=Math.random()*100+'vw';
+    item.style.fontSize=(14+Math.random()*18)+'px';
+    item.style.animationDuration=(2+Math.random()*2)+'s';
+    document.body.appendChild(item);
+    setTimeout(()=>item.remove(),4500);
+  }
+}
+
+/* GAME 1: CATCH HEART */
+const canvas=document.getElementById('gameCanvas');
+const ctx=canvas.getContext('2d');
+let bear={x:260,y:330};
+let hearts=[];
+let arrows=[];
+let heartScore=0;
+let gameRunning=false;
+let gameAnimation=null;
+let spawnTimer=0;
+let gameTime=0;
+
+function drawBear(x,y){
+  const step=gameRunning?Math.sin(gameTime*.18)*3:0;
+  ctx.fillStyle='#8b684f';
+  ctx.beginPath();ctx.ellipse(x-14,y+18+step,9,12,0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.ellipse(x+14,y+18-step,9,12,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#a98262';
+  ctx.beginPath();ctx.ellipse(x,y,25,29,0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(x-19,y-24,10,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(x+19,y-24,10,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#e9c8ad';
+  ctx.beginPath();ctx.arc(x-19,y-24,5,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(x+19,y-24,5,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#b58d6c';
+  ctx.beginPath();ctx.arc(x,y-13,25,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff0dd';
+  ctx.beginPath();ctx.ellipse(x,y-5,14,11,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#44372d';
+  ctx.beginPath();ctx.arc(x-8,y-16,2.5,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(x+8,y-16,2.5,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(x,y-7,3,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#44372d';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(x,y-5,5,.2,Math.PI-.2);ctx.stroke();
+  ctx.fillStyle='#e8a6a0';
+  ctx.beginPath();ctx.arc(x-15,y-5,4,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(x+15,y-5,4,0,Math.PI*2);ctx.fill();
+}
+
+function drawHeart(x,y,size){
+  ctx.save();ctx.translate(x,y);ctx.scale(size/20,size/20);
+  ctx.fillStyle='#d77e85';
+  ctx.beginPath();
+  ctx.moveTo(0,8);
+  ctx.bezierCurveTo(-25,-8,-12,-22,0,-10);
+  ctx.bezierCurveTo(12,-22,25,-8,0,8);
+  ctx.fill();ctx.restore();
+}
+function drawArrow(x,y){
+  ctx.strokeStyle='#526b50';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(x,y+10);ctx.lineTo(x,y-14);
+  ctx.moveTo(x,y-14);ctx.lineTo(x-6,y-6);
+  ctx.moveTo(x,y-14);ctx.lineTo(x+6,y-6);ctx.stroke();
+}
+function drawHeartGame(){
+  ctx.clearRect(0,0,520,380);
+  ctx.fillStyle='#f4f3e7';ctx.fillRect(0,0,520,380);
+  ctx.fillStyle='#dbe4d1';ctx.fillRect(0,355,520,25);
+  ctx.fillStyle='rgba(255,255,255,.7)';
+  ctx.beginPath();ctx.arc(85,65,18,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(105,58,23,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(128,68,16,0,Math.PI*2);ctx.fill();
+  ctx.font='20px sans-serif';
+  ctx.fillText('✿',25,35);ctx.fillText('✿',475,55);ctx.fillText('♡',250,35);
+  hearts.forEach(h=>drawHeart(h.x,h.y,22));
+  arrows.forEach(a=>drawArrow(a.x,a.y));
+  drawBear(bear.x,bear.y);
+}
+function fireArrow(){
+  if(gameRunning)arrows.push({x:bear.x,y:bear.y-30,hit:false});
+}
+function startHeartGame(){
+  if(gameRunning)return;
+  resetHeartGame();
+  gameRunning=true;
+  document.getElementById('startHeartButton').disabled=true;
+  document.getElementById('startHeartButton').textContent='GAME BERJALAN...';
+  document.getElementById('heartMessage').textContent='Tangkap 10 hati ya!';
+
+  function loop(){
+    if(!gameRunning)return;
+    gameTime++;spawnTimer++;
+    if(spawnTimer>35){
+      hearts.push({
+        x:25+Math.random()*470,y:-10,
+        speed:1.5+Math.random()*1.4,
+        wobble:Math.random()*6
+      });
+      spawnTimer=0;
+    }
+    hearts.forEach(h=>{
+      h.y+=h.speed;
+      h.x+=Math.sin(gameTime*.04+h.wobble)*.4;
+    });
+    arrows.forEach(a=>a.y-=7);
+    arrows.forEach(a=>{
+      hearts.forEach(h=>{
+        if(!h.hit&&!a.hit&&Math.abs(h.x-a.x)<23&&Math.abs(h.y-a.y)<25){
+          h.hit=true;a.hit=true;heartScore++;
+          document.getElementById('heartScore').textContent=heartScore;
+          document.getElementById('heartProgress').style.width=(heartScore*10)+'%';
+        }
+      });
+    });
+    hearts=hearts.filter(h=>!h.hit&&h.y<400);
+    arrows=arrows.filter(a=>!a.hit&&a.y>-20);
+    drawHeartGame();
+    if(heartScore>=10){winHeartGame();return}
+    gameAnimation=requestAnimationFrame(loop);
+  }
+  loop();
+}
+function winHeartGame(){
+  gameRunning=false;
+  if(gameAnimation)cancelAnimationFrame(gameAnimation);
+  drawHeartGame();confetti();
+  document.getElementById('heartMessage').textContent='YEAY! Semua hati berhasil ditangkap! 💚';
+  document.getElementById('startHeartButton').textContent='BERHASIL!';
+  setTimeout(()=>{if(currentSlide===2)nextSlide(3)},1800);
+}
+function stopHeartGame(){
+  gameRunning=false;
+  if(gameAnimation)cancelAnimationFrame(gameAnimation);
+}
+function resetHeartGame(){
+  stopHeartGame();hearts=[];arrows=[];
+  heartScore=0;bear.x=260;spawnTimer=0;gameTime=0;
+  document.getElementById('heartScore').textContent='0';
+  document.getElementById('heartProgress').style.width='0%';
+  document.getElementById('heartMessage').textContent='Jangan biarkan hati ira kabur dika! Hehe.';
+  document.getElementById('startHeartButton').disabled=false;
+  document.getElementById('startHeartButton').textContent='MULAI GAME';
+  drawHeartGame();
+}
+canvas.addEventListener('pointermove',e=>{
+  const r=canvas.getBoundingClientRect();
+  bear.x=Math.max(28,Math.min(492,(e.clientX-r.left)*canvas.width/r.width));
+  if(!gameRunning)drawHeartGame();
+});
+canvas.addEventListener('pointerdown',e=>{
+  const r=canvas.getBoundingClientRect();
+  bear.x=Math.max(28,Math.min(492,(e.clientX-r.left)*canvas.width/r.width));
+  if(gameRunning)fireArrow();
+});
+document.addEventListener('keydown',e=>{
+  if(currentSlide!==2||!gameRunning)return;
+  if(e.key==='ArrowLeft')bear.x=Math.max(28,bear.x-22);
+  if(e.key==='ArrowRight')bear.x=Math.min(492,bear.x+22);
+  if(e.code==='Space'){e.preventDefault();fireArrow()}
+  drawHeartGame();
+});
+drawHeartGame();
+
+/* GAME 2: MEMORY */
+const memorySymbols=['🌷','🐻','🍰','🌿','💌','🍓','🌙','🧸'];
+let memoryInitialized=false;
+let firstCard=null,secondCard=null,lockMemory=false,matchedPairs=0;
+function initMemoryGame(){
+  memoryInitialized=true;
+  const cards=[...memorySymbols,...memorySymbols].sort(()=>Math.random()-.5);
+  firstCard=null;secondCard=null;lockMemory=false;matchedPairs=0;
+  document.getElementById('matchCount').textContent='0';
+  document.getElementById('memoryMessage').textContent='Neeh lama banget dika 😆';
+  document.getElementById('memoryNext').disabled=true;
+  const grid=document.getElementById('memoryGrid');grid.innerHTML='';
+  cards.forEach(symbol=>{
+    const b=document.createElement('button');
+    b.className='memory-card';b.textContent='?';
+    b.setAttribute('aria-label','Kartu tertutup');
+    b.onclick=()=>flipMemoryCard(b,symbol);
+    grid.appendChild(b);
+  });
+}
+function flipMemoryCard(button,symbol){
+  if(lockMemory||button.classList.contains('flipped')||button.classList.contains('matched'))return;
+  button.textContent=symbol;button.classList.add('flipped');
+  if(!firstCard){firstCard={button,symbol};return}
+  secondCard={button,symbol};lockMemory=true;
+  if(firstCard.symbol===secondCard.symbol){
+    firstCard.button.classList.add('matched');
+    secondCard.button.classList.add('matched');
+    matchedPairs++;
+    document.getElementById('matchCount').textContent=matchedPairs;
+    firstCard=null;secondCard=null;lockMemory=false;
+    if(matchedPairs===8){
+      document.getElementById('memoryMessage').textContent='Semua pasangan ditemukan! Hebat juga DIKAA! 🎉';
+      document.getElementById('memoryNext').disabled=false;confetti();
+    }
+  }else{
+    setTimeout(()=>{
+      firstCard.button.textContent='?';secondCard.button.textContent='?';
+      firstCard.button.classList.remove('flipped');
+      secondCard.button.classList.remove('flipped');
+      firstCard=null;secondCard=null;lockMemory=false;
+    },800);
+  }
+}
+
+/* GAME 3: PUZZLE */
+let puzzleTiles=[],puzzleInitialized=false,puzzleMoves=0;
+function initPuzzle(){puzzleInitialized=true;shufflePuzzle()}
+function getPuzzleNeighbors(index){
+  const row=Math.floor(index/3),col=index%3,result=[];
+  if(row>0)result.push(index-3);
+  if(row<2)result.push(index+3);
+  if(col>0)result.push(index-1);
+  if(col<2)result.push(index+1);
+  return result;
+}
+function shufflePuzzle(){
+  puzzleTiles=[1,2,3,4,5,6,7,8,0];puzzleMoves=0;
+  let previous=-1;
+  for(let i=0;i<180;i++){
+    const empty=puzzleTiles.indexOf(0);
+    const options=getPuzzleNeighbors(empty).filter(n=>n!==previous);
+    const chosen=options[Math.floor(Math.random()*options.length)];
+    previous=empty;
+    [puzzleTiles[empty],puzzleTiles[chosen]]=[puzzleTiles[chosen],puzzleTiles[empty]];
+  }
+  if(isPuzzleSolved())return shufflePuzzle();
+  document.getElementById('puzzleNext').disabled=true;
+  document.getElementById('puzzleMessage').textContent='Geser kotak di sebelah ruang kosong.';
+  renderPuzzle();
+}
+function renderPuzzle(){
+  const grid=document.getElementById('puzzleGrid');grid.innerHTML='';
+  puzzleTiles.forEach((tile,index)=>{
+    const b=document.createElement('button');
+    b.className='puzzle-piece'+(tile===0?' empty':'');
+    if(tile!==0){
+      const original=tile-1,row=Math.floor(original/3),col=original%3;
+      b.style.backgroundPosition=(col*50)+'% '+(row*50)+'%';
+      b.dataset.number=tile;
+    }
+    b.onclick=()=>movePuzzle(index);grid.appendChild(b);
+  });
+}
+function movePuzzle(index){
+  const empty=puzzleTiles.indexOf(0);
+  if(!getPuzzleNeighbors(empty).includes(index))return;
+  [puzzleTiles[empty],puzzleTiles[index]]=[puzzleTiles[index],puzzleTiles[empty]];
+  puzzleMoves++;renderPuzzle();
+  if(isPuzzleSolved()){
+    document.getElementById('puzzleMessage').textContent='Yeay! Foto berhasil disusun dalam '+puzzleMoves+' langkah! 💚';
+    document.getElementById('puzzleNext').disabled=false;confetti();
+  }
+}
+function isPuzzleSolved(){
+  return puzzleTiles.every((tile,index)=>tile===index+1||(index===8&&tile===0));
+}
+
+/* 5: ENVELOPE */
+let envelopeOpened=false;
+function openEnvelope(){
+  if(envelopeOpened)return;
+  envelopeOpened=true;
+  document.getElementById('envelope').classList.add('open');
+  document.getElementById('envelopeMessage').textContent='Surat berhasil dibuka! ♡';
+  document.getElementById('envelopeText').hidden=false;
+  document.getElementById('envelopeNext').disabled=false;
+  confetti();
+}
+
+/* 6: RANDOM QUIZ */
+const quizQuestions=[
+  {
+    q:'Kalau tiba-tiba punya satu hari libur, kamu pilih...',
+    a:['Tidur seharian 😴','Jalan-jalan tanpa tujuan 🚗','Makan terus 🍜','Scroll sampai lupa waktu 📱']
+  },
+  {
+    q:'Kalau jadi hewan selama sehari, pilih...',
+    a:['Kucing yang dimanja 🐱','Beruang yang santai 🐻','Burung bebas terbang 🐦','Panda yang makan terus 🐼']
+  },
+  {
+    q:'Saat ada masalah, biasanya kamu...',
+    a:['Cari solusi langsung 🧠','Pura-pura tidak terjadi 😶','Cerita ke orang lain 💬','Tidur dulu, pikir nanti 😴']
+  },
+  {
+    q:'Kalau dapat uang jajan tambahan...',
+    a:['Ditabung 💰','Beli makanan 🍔','Belanja barang lucu 🛍️','Tidak tahu, tiba-tiba habis 😭']
+  },
+  {
+    q:'Pilih kekuatan super...',
+    a:['Bisa teleportasi ✨','Bisa membaca pikiran 🤯','Tidak pernah lapar 🍕','Bisa tidur kapan saja 💤']
+  }
+];
+let quizIndex=0,quizScore=0,quizFinished=false;
+function renderQuiz(){
+  const q=quizQuestions[quizIndex];
+  document.getElementById('quizQuestion').textContent=q.q;
+  document.getElementById('quizCounter').textContent='Pertanyaan '+(quizIndex+1)+' dari 5';
+  document.getElementById('quizProgress').style.width=(quizIndex/5*100)+'%';
+  const area=document.getElementById('quizOptions');area.innerHTML='';
+  q.a.forEach((answer,index)=>{
+    const b=document.createElement('button');
+    b.className='quiz-option';b.textContent=answer;
+    b.onclick=()=>{
+      if(quizFinished)return;
+      quizScore+=index+1;
+      quizIndex++;
+      if(quizIndex<quizQuestions.length)renderQuiz();
+      else finishQuiz();
+    };
+    area.appendChild(b);
+  });
+}
+function finishQuiz(){
+  quizFinished=true;
+  document.getElementById('quizArea').hidden=true;
+  document.getElementById('quizResult').hidden=false;
+  document.getElementById('quizProgress').style.width='100%';
+  const results=[
+    ['THE CHILL MASTER 🐻','Kamu punya energi santai yang luar biasa. Dunia boleh ribut, yang penting kamu tetap tenang.'],
+    ['THE RANDOM THINKER 🤨','Isi kepalamu mungkin penuh ide yang tidak terduga. Bahkan kamu sendiri kadang bingung.'],
+    ['THE MAIN CHARACTER ✨','Kamu punya aura tokoh utama. Tinggal tunggu soundtrack hidupmu diputar.'],
+    ['THE FOOD EXPLORER 🍜','Sepertinya makanan adalah salah satu sumber kebahagiaan terbesarmu. Valid sih.'],
+    ['THE MYSTERY PERSON 🕵️','Sulit ditebak, kadang serius, kadang random. Bahkan kuis ini tidak bisa sepenuhnya memahami kamu.']
+  ];
+  const result=results[Math.floor(Math.random()*results.length)];
+  document.getElementById('quizResultTitle').textContent=result[0];
+  document.getElementById('quizResultText').textContent=result[1];
+  document.getElementById('quizNext').disabled=false;
+  confetti();
+}
+function restartQuiz(){
+  quizIndex=0;quizScore=0;quizFinished=false;
+  document.getElementById('quizArea').hidden=false;
+  document.getElementById('quizResult').hidden=true;
+  document.getElementById('quizNext').disabled=true;
+  renderQuiz();
+}
+renderQuiz();
+
+/* 7: FORTUNE WHEEL - FINAL FIX */
+const prizes=[
+  '☕ Traktir kopi',
+  '🍜 Bebas pilih makanan',
+  '💌 Aku Make up in kamu',
+  '🎁 Hadiah misterius',
+  '🌷 Dapat pujian',
+  '😎 Kamu traktir aku'
+];
+const wheel=document.getElementById('wheel');
+const labels=document.getElementById('wheelLabels');
+prizes.forEach((prize,i)=>{
+  const label=document.createElement('div');
+  label.className='wheel-label';
+  label.textContent=prize;
+  label.style.transform='rotate('+(i*60-60)+'deg) translateY(-50%)';
+  labels.appendChild(label);
+});
+let wheelRotation=0;
+let wheelSpinning=false;
+let wheelDone=false;
+let wheelTimer=null;
+function spinWheel(){
+  if(wheelSpinning)return;
+  wheelSpinning=true;
+  wheelDone=false;
+  const spinButton=document.getElementById('spinButton');
+  const nextButton=document.getElementById('wheelNext');
+  const resultBox=document.getElementById('wheelResult');
+  spinButton.disabled=true;
+  nextButton.disabled=true;
+  spinButton.textContent='RODA SEDANG BERPUTAR...';
+  resultBox.textContent='Menentukan keberuntungan Dika... 🎡';
+  const selectedSector=Math.floor(Math.random()*prizes.length);
+  const targetAngle=(360-(selectedSector*60+30)+360)%360;
+  const currentAngle=((wheelRotation%360)+360)%360;
+  const adjustment=(targetAngle-currentAngle+360)%360;
+  const extraTurns=6*360;
+  wheelRotation+=extraTurns+adjustment;
+  wheel.style.transform='rotate('+wheelRotation+'deg)';
+  clearTimeout(wheelTimer);
+  wheelTimer=setTimeout(()=>{
+    wheelSpinning=false;
+    wheelDone=true;
+    resultBox.innerHTML='<strong>🎉 HASIL SPIN DIKA!</strong><br><br><span style="font-size:23px;font-weight:800;color:#526B50">'+prizes[selectedSector]+'</span><br><br>Selamat menikmati hadiahnya! ♡';
+    spinButton.disabled=false;
+    spinButton.textContent='PUTAR LAGI ↻';
+    nextButton.disabled=false;
+    confetti();
+  },5500);
+}
+
+/* 9: SCRATCH CARD */
+const scratchCanvas=document.getElementById('scratchCanvas');
+const scratchCtx=scratchCanvas.getContext('2d');
+let scratching=false,scratchReady=false;
+function prepareScratch(){
+  if(!scratchReady)resetScratch();
+}
+function resetScratch(){
+  scratchReady=true;
+  document.getElementById('scratchWrap').classList.remove('revealed');
+  document.getElementById('scratchStatus').textContent='Gosok dengan mouse atau jari.';
+  document.getElementById('scratchNext').disabled=true;
+  scratchCtx.globalCompositeOperation='source-over';
+  scratchCtx.clearRect(0,0,430,180);
+  scratchCtx.fillStyle='#aab99b';
+  scratchCtx.fillRect(0,0,430,180);
+  scratchCtx.fillStyle='#fff9ef';
+  scratchCtx.font='bold 23px DM Sans';
+  scratchCtx.textAlign='center';
+  scratchCtx.fillText('SCRATCH HERE ✨',215,82);
+  scratchCtx.font='18px DM Sans';
+  scratchCtx.fillText('Gosok untuk membuka!',215,116);
+  scratchCtx.globalCompositeOperation='destination-out';
+}
+function scratchAt(e){
+  if(!scratching)return;
+  const rect=scratchCanvas.getBoundingClientRect();
+  const x=(e.clientX-rect.left)*scratchCanvas.width/rect.width;
+  const y=(e.clientY-rect.top)*scratchCanvas.height/rect.height;
+  scratchCtx.beginPath();
+  scratchCtx.arc(x,y,23,0,Math.PI*2);
+  scratchCtx.fill();
+  checkScratchProgress();
+}
+function checkScratchProgress(){
+  const data=scratchCtx.getImageData(0,0,430,180).data;
+  let clear=0;
+  for(let i=3;i<data.length;i+=16){
+    if(data[i]<40)clear++;
+  }
+  if(clear/(data.length/16)>.42){
+    document.getElementById('scratchWrap').classList.add('revealed');
+    document.getElementById('scratchStatus').textContent='Pesan berhasil dibuka! ✨';
+    document.getElementById('scratchNext').disabled=false;
+    confetti();
+  }
+}
+scratchCanvas.addEventListener('pointerdown',e=>{
+  scratching=true;
+  scratchCanvas.setPointerCapture(e.pointerId);
+  scratchAt(e);
+});
+scratchCanvas.addEventListener('pointermove',scratchAt);
+scratchCanvas.addEventListener('pointerup',()=>scratching=false);
+scratchCanvas.addEventListener('pointercancel',()=>scratching=false);
+
+/* 12: RANDOM FACTS */
+const facts=[
+  'Dika bisa saja sedang membaca ini sambil bertanya: kok bisa ada website beginian? 🤨',
+  'Kemungkinan besar Dika tidak menyangka bakal menemukan 14 halaman di sini.',
+  'Dika resmi menjadi pemeran utama dalam website paling random hari ini. 🏆',
+  'Fakta penting: beruang kecil di website ini sudah bekerja keras.',
+  'Dika berhasil membuka halaman ini. Berarti rasa penasarannya cukup tinggi.',
+  'Website ini dibuat dengan niat. Walaupun isinya agak tidak jelas. WKWK.',
+  'Dika mendapatkan gelar: manusia yang berhasil sampai sejauh ini. 🎖️',
+  'Jika kamu membaca ini, berarti tombol NEXT memang sangat menarik.'
+];
+let factCount=0;
+let lastFact=-1;
+function showRandomFact(){
+  let index;
+  do{index=Math.floor(Math.random()*facts.length)}
+  while(index===lastFact);
+  lastFact=index;factCount++;
+  document.getElementById('factBox').textContent=facts[index];
+  document.getElementById('factCounter').textContent='Fakta random dibuka: '+factCount;
+}
+
+/* 13: SECRET ROOM */
+function unlockSecret(){
+  const value=document.getElementById('secretCode').value.trim().toLowerCase();
+  if(value==='sahira'){
+    document.getElementById('secretContent').style.display='block';
+    document.getElementById('secretMessage').textContent='ACCESS GRANTED! Selamat datang! 🎉';
+    document.getElementById('secretNext').disabled=false;
+    document.getElementById('secretCode').disabled=true;
+    confetti();
+  }else{
+    document.getElementById('secretMessage').textContent='Hmm... kode belum tepat. Coba pikirkan petunjuknya lagi!';
+  }
+}
+document.getElementById('secretCode').addEventListener('keydown',e=>{
+  if(e.key==='Enter')unlockSecret();
+});
+
+/* RESTART */
+function restartWebsite(){
+  stopHeartGame();
+  document.querySelectorAll('video').forEach(v=>{
+    v.pause();v.currentTime=0;
+  });
+
+  memoryInitialized=false;
+  puzzleInitialized=false;
+  initMemoryGame();
+  initPuzzle();
+  resetHeartGame();
+
+  envelopeOpened=false;
+  document.getElementById('envelope').classList.remove('open');
+  document.getElementById('envelopeText').hidden=true;
+  document.getElementById('envelopeMessage').textContent='Klik amplopnya untuk membuka!';
+  document.getElementById('envelopeNext').disabled=true;
+
+  restartQuiz();
+
+  clearTimeout(wheelTimer);
+  wheelRotation=0;wheelSpinning=false;wheelDone=false;
+  wheel.style.transition='none';
+  wheel.style.transform='rotate(0deg)';
+  void wheel.offsetWidth;
+  wheel.style.transition='transform 5s cubic-bezier(.12,.72,.12,1)';
+  document.getElementById('wheelResult').textContent='Hasil keberuntunganmu akan muncul di sini.';
+  document.getElementById('spinButton').disabled=false;
+  document.getElementById('spinButton').textContent='SPIN THE WHEEL!';
+  document.getElementById('wheelNext').disabled=true;
+
+  factCount=0;lastFact=-1;
+  document.getElementById('factBox').textContent='Klik tombolnya. Siapa tahu ada yang relate! ✨';
+  document.getElementById('factCounter').textContent='Fakta random: belum dibuka';
+
+  document.getElementById('secretCode').value='';
+  document.getElementById('secretCode').disabled=false;
+  document.getElementById('secretContent').style.display='none';
+  document.getElementById('secretMessage').textContent='Psst... coba pikirkan baik-baik.';
+  document.getElementById('secretNext').disabled=true;
+
+  scratchReady=false;
+  document.getElementById('finalSecretMessage').classList.remove('show');
+  document.getElementById('finalSecretButton').disabled=false;
+  document.getElementById('finalSecretButton').textContent='JANGAN DIKLIK KALAU NGGAK PENASARAN 🤫';
+  if(!music.paused){music.pause();}
+  document.getElementById('musicToggle').textContent='♫ MUSIC: OFF';
+  nextSlide(1);
+}
+</script>
+
+</body>
+</html>
